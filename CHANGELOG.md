@@ -14,3 +14,5 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 - Vista previa estática en PNG (`--png`) sin necesidad de navegador.
 - Lanzador `bin/graph3d` y comprobación en la CLI: siempre corre dentro de un venv.
 - Pruebas en Python (`unittest`) y pruebas del visor en `node` con un DOM simulado.
+- Pantalla completa (botón y tecla `F`) y botón «Exportar PNG» que descarga la vista actual sin el panel lateral.
+- Icono del visor incrustado en el HTML.

@@ -1,5 +1,3 @@
-// Prueba del visor sin navegador: ejecuta el script del HTML generado con un DOM simulado.
-// Uso: node tests/js/viewer.test.js <archivo.html>
 const fs = require('fs');
 const vm = require('vm');
 const assert = require('assert');
@@ -120,6 +118,30 @@ test('rotar con el ratón y hacer zoom no rompe el dibujo', () => {
   listeners.wheel({ preventDefault() {}, deltaY: 300 });
   renderFrame();
   assert.strictEqual(drawn.fills, data.nodes.length);
+});
+
+test('exportar PNG recorta el panel lateral y pinta el fondo', () => {
+  const calls = [];
+  const fake = {
+    width: 0, height: 0,
+    getContext: () => new Proxy({}, { get: (_t, p) => (...a) => { calls.push([p, ...a]); }, set() { return true; } }),
+    toBlob(cb) { fake.blobbed = true; cb({}); },
+  };
+  const realCreate = global.document.createElement;
+  global.document.createElement = (tag) => (tag === 'canvas' ? fake : { click() { fake.clicked = true; }, set href(_v) {}, get href() { return ''; }, set download(v) { fake.name = v; } });
+  global.URL = { createObjectURL: () => 'blob:x', revokeObjectURL() {} };
+  global.setTimeout = () => {};
+  try {
+    renderFrame();
+    elements.exportPng.onclick();
+  } finally { global.document.createElement = realCreate; }
+  assert.strictEqual(fake.width, 1600 - 310);
+  assert.strictEqual(fake.height, 900);
+  assert.ok(calls.some((c) => c[0] === 'fillRect'), 'falta el fondo');
+  const draw = calls.find((c) => c[0] === 'drawImage');
+  assert.strictEqual(draw[2], 310);
+  assert.ok(fake.blobbed && fake.clicked);
+  assert.ok(/\.png$/.test(fake.name), fake.name);
 });
 
 console.log(`${passed} pruebas del visor OK`);

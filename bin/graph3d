@@ -1,6 +1,4 @@
 #!/bin/sh
-# Lanzador de graph3d: usa SIEMPRE un venv, nunca el Python del sistema.
-# Orden de búsqueda: $GRAPH3D_VENV, ./.venv (el repo desde donde lo llamas), <este repo>/.venv.
 set -eu
 
 HERE=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)

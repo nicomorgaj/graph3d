@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>graph3d</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20160%20160%22%20width=%22160%22%20height=%22160%22%20role=%22img%22%20aria-label=%22graph3d%20logo%22%3E%3Crect%20width=%22160%22%20height=%22160%22%20rx=%2232%22%20fill=%22%230f172a%22/%3E%3Cellipse%20cx=%2280%22%20cy=%2280%22%20rx=%2252%22%20ry=%2252%22%20fill=%22none%22%20stroke=%22%23334155%22%20stroke-width=%222%22/%3E%3Cellipse%20cx=%2280%22%20cy=%2280%22%20rx=%2252%22%20ry=%2218%22%20fill=%22none%22%20stroke=%22%23334155%22%20stroke-width=%222%22%20transform=%22rotate%28-20%2080%2080%29%22/%3E%3Cg%20stroke=%22%2364748b%22%20stroke-width=%223%22%20stroke-linecap=%22round%22%3E%3Cline%20x1=%2280%22%20y1=%2280%22%20x2=%2246%22%20y2=%2252%22/%3E%3Cline%20x1=%2280%22%20y1=%2280%22%20x2=%22118%22%20y2=%2258%22/%3E%3Cline%20x1=%2280%22%20y1=%2280%22%20x2=%22104%22%20y2=%22116%22/%3E%3Cline%20x1=%2280%22%20y1=%2280%22%20x2=%2250%22%20y2=%22112%22/%3E%3Cline%20x1=%2246%22%20y1=%2252%22%20x2=%2250%22%20y2=%22112%22/%3E%3C/g%3E%3Ccircle%20cx=%2246%22%20cy=%2252%22%20r=%229%22%20fill=%22%2338bdf8%22/%3E%3Ccircle%20cx=%22118%22%20cy=%2258%22%20r=%229%22%20fill=%22%23f59e0b%22/%3E%3Ccircle%20cx=%22104%22%20cy=%22116%22%20r=%229%22%20fill=%22%23a78bfa%22/%3E%3Ccircle%20cx=%2250%22%20cy=%22112%22%20r=%229%22%20fill=%22%2334d399%22/%3E%3Ccircle%20cx=%2280%22%20cy=%2280%22%20r=%2213%22%20fill=%22%23f8fafc%22/%3E%3C/svg%3E">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root { color-scheme: dark; }
@@ -70,6 +71,7 @@
     </div>
     <label class="chk"><input type="checkbox" id="reverse"> <span data-i18n="reverse"></span></label>
     <div style="display:flex; gap:8px"><button id="reset" data-i18n="fit"></button><button id="clear" data-i18n="clear"></button></div>
+    <div style="display:flex; gap:8px"><button id="fullscreen" data-i18n="fullscreen"></button><button id="exportPng" data-i18n="export_png"></button></div>
   </div>
   <div id="areasTitle" data-i18n="areas_title" style="padding:0 14px 4px;color:#8b97ab;font-size:11px;text-transform:uppercase;letter-spacing:.06em"></div>
   <div id="areas"></div>
@@ -366,6 +368,43 @@ function centerOn(i) { project(); view.panX += (W / 2 + 155) - px[i]; view.panY 
 document.getElementById('infoClose').onclick = clearSelection;
 document.getElementById('clear').onclick = () => { query = ''; document.getElementById('q').value = ''; focusComms.clear(); focusAreas.clear(); clearSelection(); renderLists(); };
 document.getElementById('reset').onclick = fit;
+
+const fsBtn = document.getElementById('fullscreen');
+const root = document.documentElement;
+function toggleFullscreen() {
+  if (document.fullscreenElement) document.exitFullscreen();
+  else root.requestFullscreen();
+}
+if (root.requestFullscreen) {
+  fsBtn.onclick = toggleFullscreen;
+  window.addEventListener('keydown', e => {
+    if ((e.key === 'f' || e.key === 'F') && !e.ctrlKey && !e.metaKey && !e.altKey && e.target.tagName !== 'INPUT') toggleFullscreen();
+  });
+} else {
+  fsBtn.style.display = 'none';
+}
+
+function composeExport() {
+  const left = Math.round(310 * DPR);
+  const out = document.createElement('canvas');
+  out.width = Math.max(1, canvas.width - left); out.height = canvas.height;
+  const o = out.getContext('2d');
+  o.fillStyle = '#0a0e16';
+  o.fillRect(0, 0, out.width, out.height);
+  o.drawImage(canvas, left, 0, out.width, out.height, 0, 0, out.width, out.height);
+  return out;
+}
+function exportPng() {
+  if (dirty) render();
+  composeExport().toBlob(blob => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = (DATA.title.replace(/[^\w.-]+/g, '-').replace(/^-+|-+$/g, '') || 'graph3d') + '.png';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }, 'image/png');
+}
+document.getElementById('exportPng').onclick = exportPng;
 document.getElementById('edges').onchange = e => { showEdges = e.target.checked; dirty = true; };
 document.getElementById('labels').onchange = e => { showLabels = e.target.checked; dirty = true; };
 document.getElementById('spin').onchange = e => { autoSpin = e.target.checked; };

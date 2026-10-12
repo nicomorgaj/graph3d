@@ -1,4 +1,3 @@
-# Todo corre dentro de un venv. Por defecto .venv; para usar otro: make test VENV=/ruta/al/venv
 VENV ?= .venv
 PY   := $(VENV)/bin/python
 

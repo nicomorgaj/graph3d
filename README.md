@@ -1,6 +1,23 @@
-# graph3d
+<p align="center">
+  <img src="docs/logo.svg" width="140" alt="graph3d logo" />
+</p>
 
-Visor **3D interactivo y autocontenido** para grafos de código y de conocimiento: un solo archivo HTML, sin servidor y sin librerías externas.
+<h1 align="center">graph3d</h1>
+
+<p align="center">
+  Visor 3D interactivo y autocontenido para grafos de código y de conocimiento: un solo HTML, sin servidor y sin librerías externas.
+</p>
+
+<p align="center">
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python_3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" /></a>
+  <a href="https://numpy.org/"><img src="https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white" alt="NumPy" /></a>
+  <a href="https://developer.mozilla.org/docs/Web/JavaScript"><img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" /></a>
+  <a href="https://developer.mozilla.org/docs/Web/HTML"><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" /></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js" /></a>
+  <a href="https://github.com/features/actions"><img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="GitHub Actions" /></a>
+  <a href="https://git-scm.com/"><img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/Licencia-MIT-green?style=for-the-badge" alt="Licencia MIT" /></a>
+</p>
 
 ![Vista previa estática del grafo de ejemplo](docs/preview.png)
 
@@ -16,6 +33,7 @@ Visor **3D interactivo y autocontenido** para grafos de código y de conocimient
 - **Filtros de selección múltiple** por área y por comunidad, búsqueda por nombre y selección de nodo con sus vecinos.
 - **Rotación automática** con velocidad configurable (0.1× a 8×) y opción de girar al revés.
 - **Etiquetas sin solapes** y efecto de profundidad.
+- **Pantalla completa** (botón o tecla `F`) y **exportar PNG** del dibujo actual desde el propio visor.
 - Interfaz en **español e inglés**.
 
 ## Requisitos
@@ -106,6 +124,8 @@ Solo `id` es obligatorio. Se aprovechan, si existen: `label`/`name`, `community`
 | Seleccionar | Clic en un nodo (ilumina sus vecinos; clic en un vecino salta a él) |
 | Filtrar | Chips de áreas y lista de comunidades (varios a la vez) |
 | Buscar | Caja de texto; Enter va al nodo más conectado que coincide |
+| Pantalla completa | Botón «Pantalla completa» o tecla `F` |
+| Exportar imagen | Botón «Exportar PNG»: guarda la vista actual (sin el panel lateral) con fondo oscuro |
 
 ## Cómo funciona
 
