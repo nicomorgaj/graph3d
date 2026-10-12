@@ -1,0 +1,7 @@
+* text=auto eol=lf
+
+*.png binary
+
+# Archivos generados: no cuentan en las estadísticas de lenguajes ni ensucian los diffs
+docs/demo.html linguist-generated=true -diff
+examples/sample-graph.json linguist-generated=true -diff

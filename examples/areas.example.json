@@ -1,0 +1,8 @@
+{
+  "areas": [
+    { "name": "Backend",  "match": ["backend/", "api/"], "hue": 24 },
+    { "name": "Frontend", "match": ["frontend/", "web/"], "hue": 205 },
+    { "name": "Docs",     "match": ["docs/", "*.md"],     "hue": 285 },
+    { "name": "Infra",    "match": [".github/", "docker"], "hue": 48 }
+  ]
+}

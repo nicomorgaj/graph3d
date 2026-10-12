@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Entornos virtuales (la herramienta corre siempre dentro de uno)
+.venv/
+venv/
+env/
+.env
+
+# Salidas generadas al probar con tus propios grafos
+*-3d.html
+*.local.json
+graphify-out/
+out/
+tmp/
+
+# Se conservan los ejemplos versionados
+!docs/demo.html
+!examples/sample-graph.json
+
+# Editores y sistema
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db

@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "graph3d"
+version = "0.1.0"
+description = "Visor 3D interactivo y autocontenido (un solo HTML, sin librerías externas) para grafos de código y conocimiento."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = ["numpy>=1.22"]
+keywords = ["graph", "visualization", "3d", "knowledge-graph", "codebase", "graphify"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Software Development :: Documentation",
+  "Topic :: Scientific/Engineering :: Visualization",
+]
+
+[project.scripts]
+graph3d = "graph3d.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+graph3d = ["template.html"]

@@ -1,0 +1,28 @@
+#!/bin/sh
+# Lanzador de graph3d: usa SIEMPRE un venv, nunca el Python del sistema.
+# Orden de búsqueda: $GRAPH3D_VENV, ./.venv (el repo desde donde lo llamas), <este repo>/.venv.
+set -eu
+
+HERE=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+
+PY=""
+for candidate in "${GRAPH3D_VENV:-}" "$PWD/.venv" "$HERE/.venv"; do
+  if [ -n "$candidate" ] && [ -x "$candidate/bin/python" ]; then
+    PY="$candidate/bin/python"
+    break
+  fi
+done
+
+if [ -z "$PY" ]; then
+  echo "graph3d: no encuentro un venv con numpy." >&2
+  echo "  Crea uno:   python3 -m venv .venv && .venv/bin/pip install -r requirements.txt" >&2
+  echo "  O indica cuál usar:   GRAPH3D_VENV=/ruta/al/.venv bin/graph3d <grafo.json>" >&2
+  exit 3
+fi
+
+if ! "$PY" -c "import numpy" 2>/dev/null; then
+  echo "graph3d: el venv $PY no tiene numpy (.venv/bin/pip install -r requirements.txt)." >&2
+  exit 3
+fi
+
+PYTHONPATH="$HERE/src${PYTHONPATH:+:$PYTHONPATH}" exec "$PY" -m graph3d "$@"
